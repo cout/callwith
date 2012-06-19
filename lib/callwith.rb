@@ -18,7 +18,7 @@ def callwith(*objs, &block)
     begin
       last = p.__instance_eval__(&block)
     ensure
-      p.__with__cleanup__()
+      p.__callwith__cleanup__()
     end
   end
   return last
@@ -26,8 +26,8 @@ end
 
 class CallWith
   def method_missing(method, *args, &block)
-    obj = __with__obj__()
-    self_obj = __with__self_obj__()
+    obj = __callwith__obj__()
+    self_obj = __callwith__self_obj__()
 
     if obj.respond_to?(method)
       obj.__send__(method, *args, &block)

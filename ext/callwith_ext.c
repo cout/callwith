@@ -64,8 +64,8 @@ void Init_with_ext()
   rb_undef_alloc_func(rb_cCallWith);
   rb_define_singleton_method(rb_cCallWith, "create", callwith_s_create, 2);
   rb_define_method(rb_cCallWith, "__instance_eval__", rb_obj_instance_eval, -1);
-  rb_define_method(rb_cCallWith, "__with__obj__", callwith_obj, 0);
-  rb_define_method(rb_cCallWith, "__with__self_obj__", callwith_self_obj, 0);
-  rb_define_method(rb_cCallWith, "__with__cleanup__", callwith_cleanup, 0);
+  rb_define_method(rb_cCallWith, "__callwith__obj__", callwith_obj, 0);
+  rb_define_method(rb_cCallWith, "__callwith__self_obj__", callwith_self_obj, 0);
+  rb_define_method(rb_cCallWith, "__callwith__cleanup__", callwith_cleanup, 0);
 }
 
