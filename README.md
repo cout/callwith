@@ -1,6 +1,18 @@
 with
 ====
 
+Synopsis
+--------
+
+    gem install with
+
+    with(obj) do
+      # stuff
+    end
+
+Background
+----------
+
 One common problem with using `instance_eval` as a tool for brevity is
 that it can easily become unclear which object is `self`.  For example,
 the Tk library that comes with Ruby makes heavy use of `instance_eval`:
