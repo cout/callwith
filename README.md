@@ -80,3 +80,8 @@ The `with` method can also iterate over multiple objects, e.g.:
       end
     end
 
+License
+-------
+
+License is the MIT License (http://www.opensource.org/licenses/mit-license.html) 
+
