@@ -5,14 +5,19 @@ static VALUE rb_cWith = Qnil;
 
 static VALUE with_s_create(VALUE klass, VALUE obj, VALUE self_obj)
 {
+  /* Create a new With object, bypassing the usual object creation,
+   * because the With class is not a normal class. */
   NEWOBJ(with, struct RObject);
   OBJSETUP(with, klass, T_OBJECT);
   VALUE self = (VALUE)with;
 
+  /* Place our delegate objects into the singleton class so we can
+   * access them later */
   VALUE s = rb_singleton_class(self);
   rb_iv_set(s, "__with_obj__", obj);
   rb_iv_set(s, "__with_self_obj__", self_obj);
 
+  /* Copy the instance variable table from self_obj */
   struct RBasic basic = *(RBASIC(self));
   *(ROBJECT(self)) = *(ROBJECT(self_obj));
   *(RBASIC(self)) = basic;
