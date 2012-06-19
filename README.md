@@ -4,6 +4,11 @@ with
 Synopsis
 --------
 
+`Object#with` is like `instance_eval`, but can still delegate back to the
+original object if a method is not found.  Also unlike `instance_eval`,
+all instance variables accessed within the block reference the original
+self object.
+
     gem install with
 
     with(obj) do
