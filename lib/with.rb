@@ -1,5 +1,16 @@
 require 'with_ext'
 
+# Iterate over the given objects and delegate all instance method calls
+# in the block to the object.  Instance variables accessed from inside
+# the block are delegated to the receiver of the method.  Returns the
+# result of the last expression evaluated.
+#
+# Example:
+#
+#     with(file1, file2) do
+#       write("this is a test")
+#     end
+#
 def with(*objs, &block)
   last = nil
   objs.each do |obj|
