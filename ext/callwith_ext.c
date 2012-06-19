@@ -1,12 +1,12 @@
 #include <ruby.h>
 #include <st.h>
 
-static VALUE rb_cWith = Qnil;
+static VALUE rb_cCallWith = Qnil;
 
-static VALUE with_s_create(VALUE klass, VALUE obj, VALUE self_obj)
+static VALUE callwith_s_create(VALUE klass, VALUE obj, VALUE self_obj)
 {
-  /* Create a new With object, bypassing the usual object creation,
-   * because the With class is not a normal class. */
+  /* Create a new CallWith object, bypassing the usual object creation,
+   * because the CallWith class is not a normal class. */
   NEWOBJ(with, struct RObject);
   OBJSETUP(with, klass, T_OBJECT);
   VALUE self = (VALUE)with;
@@ -27,17 +27,17 @@ static VALUE with_s_create(VALUE klass, VALUE obj, VALUE self_obj)
   return self;
 }
 
-static VALUE with_obj(VALUE self)
+static VALUE callwith_obj(VALUE self)
 {
   return rb_iv_get(rb_singleton_class(self), "__with_obj__");
 }
 
-static VALUE with_self_obj(VALUE self)
+static VALUE callwith_self_obj(VALUE self)
 {
   return rb_iv_get(rb_singleton_class(self), "__with_self_obj__");
 }
 
-static VALUE with_cleanup(VALUE self)
+static VALUE callwith_cleanup(VALUE self)
 {
   /* We don't want to keep the ivar table pointer around indefinitely,
    * because if we do, the GC will free the ivar table, which is
@@ -46,7 +46,7 @@ static VALUE with_cleanup(VALUE self)
    */
 
   NEWOBJ(dummy, struct RObject);
-  OBJSETUP(dummy, rb_cWith, T_OBJECT);
+  OBJSETUP(dummy, rb_cCallWith, T_OBJECT);
 
   struct RBasic basic = *(RBASIC(self));
   *(ROBJECT(self)) = *(ROBJECT(dummy));
@@ -56,16 +56,16 @@ static VALUE with_cleanup(VALUE self)
 void Init_with_ext()
 {
   VALUE super = rb_class_boot(0);
-  rb_cWith = rb_class_boot(super);
-  rb_name_class(rb_cWith, rb_intern("With"));
-  rb_const_set(rb_cObject, rb_intern("With"), rb_cWith);
-  rb_global_variable(&rb_cWith);
+  rb_cCallWith = rb_class_boot(super);
+  rb_name_class(rb_cCallWith, rb_intern("CallWith"));
+  rb_const_set(rb_cObject, rb_intern("CallWith"), rb_cCallWith);
+  rb_global_variable(&rb_cCallWith);
 
-  rb_undef_alloc_func(rb_cWith);
-  rb_define_singleton_method(rb_cWith, "create", with_s_create, 2);
-  rb_define_method(rb_cWith, "__instance_eval__", rb_obj_instance_eval, -1);
-  rb_define_method(rb_cWith, "__with__obj__", with_obj, 0);
-  rb_define_method(rb_cWith, "__with__self_obj__", with_self_obj, 0);
-  rb_define_method(rb_cWith, "__with__cleanup__", with_cleanup, 0);
+  rb_undef_alloc_func(rb_cCallWith);
+  rb_define_singleton_method(rb_cCallWith, "create", callwith_s_create, 2);
+  rb_define_method(rb_cCallWith, "__instance_eval__", rb_obj_instance_eval, -1);
+  rb_define_method(rb_cCallWith, "__with__obj__", callwith_obj, 0);
+  rb_define_method(rb_cCallWith, "__with__self_obj__", callwith_self_obj, 0);
+  rb_define_method(rb_cCallWith, "__with__cleanup__", callwith_cleanup, 0);
 }
 

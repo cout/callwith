@@ -7,20 +7,20 @@ require 'with_ext'
 #
 # Example:
 #
-#     with(file1, file2) do
+#     callwith(file1, file2) do
 #       write("this is a test")
 #     end
 #
-def with(*objs, &block)
+def callwith(*objs, &block)
   last = nil
   objs.each do |obj|
-    p = With.create(obj, self)
+    p = CallWith.create(obj, self)
     last = p.__instance_eval__(&block)
   end
   return last
 end
 
-class With
+class CallWith
   def method_missing(method, *args, &block)
     obj = __with__obj__()
     self_obj = __with__self_obj__()

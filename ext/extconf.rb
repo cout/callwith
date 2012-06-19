@@ -1,3 +1,3 @@
 require 'mkmf'
-create_makefile('with_ext')
+create_makefile('callwith_ext')
 

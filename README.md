@@ -1,19 +1,23 @@
-with
-====
+callwith
+========
 
 Synopsis
 --------
 
-`Object#with` is like `instance_eval`, but can still delegate back to the
+`Object#callwith` is like `instance_eval`, but can still delegate back to the
 original object if a method is not found.  Also unlike `instance_eval`,
 all instance variables accessed within the block reference the original
 self object.
 
-    gem install with
+    gem install callwith
 
-    with(obj) do
+    callwith(obj) do
       # stuff
     end
+
+(this method was originally called `with` when it was part of
+RubyTreasures, but has been renamed to `callwith` to avoid conflict with
+the `with` gem).
 
 Background
 ----------
@@ -45,8 +49,8 @@ the Tk library that comes with Ruby makes heavy use of `instance_eval`:
       end
     end
 
-The `with` method will delegate method calls to the passed object;
-however, if the passed object does not have such a method, `with` will
+The `callwith` method will delegate method calls to the passed object;
+however, if the passed object does not have such a method, `callwith` will
 fall back onto calling on `self`.  For example:
 
     class HelloWorld
@@ -55,7 +59,7 @@ fall back onto calling on `self`.  For example:
       end
 
       def hello(file)
-        with(file) do
+        callwith(file) do
           write("Hello world") # writes "Hello world" to file
           increment()          # calls increment on the HelloWorld instance
         end
@@ -70,16 +74,16 @@ All accessed instance variables are in the `self` object, so we could
 have written hello() like this:
 
     def hello(file)
-      with(file) do
+      callwith(file) do
         write("Hello world")
         increment()
       end
     end
 
-The `with` method can also iterate over multiple objects, e.g.:
+The `callwith` method can also iterate over multiple objects, e.g.:
 
     def hello(*files)
-      with(*files) do
+      callwith(*files) do
         write("Hello world")
         increment()
       end
