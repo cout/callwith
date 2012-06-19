@@ -15,7 +15,11 @@ def callwith(*objs, &block)
   last = nil
   objs.each do |obj|
     p = CallWith.create(obj, self)
-    last = p.__instance_eval__(&block)
+    begin
+      last = p.__instance_eval__(&block)
+    ensure
+      p.__with__cleanup__()
+    end
   end
   return last
 end
